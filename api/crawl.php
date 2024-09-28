@@ -41,3 +41,4 @@ $urlTo = 'https://www.euronics.ee/';
 $result = crawl($urlTo);
 
 echo json_encode($result);
+
