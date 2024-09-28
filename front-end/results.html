@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the Washed Out Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>the Washed Out Data</h1>
+<ul id="resultList"></ul>
+
+<script>
+    // Function to parse URL parameters
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Get the 'data' parameter from the URL
+    const data = getUrlParameter('data');
+
+    if (data) {
+        const categories = JSON.parse(data);
+
+        // Select the list element to display results
+        const resultList = document.getElementById('resultList');
+
+        // Loop through the categories and display them
+        categories.categories.forEach(category => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${category.name}</strong><br>${category.description}`;
+            resultList.appendChild(listItem);
+        });
+    } else {
+        document.getElementById('resultList').innerHTML = '<li>No data found.</li>';
+    }
+</script>
+</body>
+</html>
