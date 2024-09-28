@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doughnut Chart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        canvas {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Andmete sõõrik</h1>
+<canvas id="doughnutChart"></canvas>
+
+<script>
+    // Function to parse URL parameters
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        const results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Get the 'data' parameter from the URL
+    const data = getUrlParameter('data');
+
+    if (data) {
+        const parsedData = JSON.parse(data);
+
+        // Prepare data for the doughnut chart
+        const ctx = document.getElementById('doughnutChart').getContext('2d');
+        const myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut', // Set the chart type to 'doughnut'
+            data: {
+                labels: parsedData.categories.map(category => category.name), // Use category names from the parsed data
+                datasets: [{
+                    label: 'Category Distribution',
+                    data: parsedData.categories.map(category => category.value || 1), // Assuming 'value' property; adjust as necessary
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Category Distribution (Doughnut Chart)'
+                    }
+                }
+            }
+        });
+    } else {
+        document.body.innerHTML = '<h2>No data found.</h2>'; // Display a message if no data
+    }
+</script>
+</body>
+</html>

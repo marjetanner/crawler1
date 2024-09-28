@@ -35,7 +35,7 @@
             .then(response => response.json()) // Assuming the response is JSON
             .then(data => {
                 // Redirect to result page, passing the response as URL parameters
-                window.location.href = 'results.html?data=' + encodeURIComponent(JSON.stringify(data));
+                window.location.href = 'chart.html?data=' + encodeURIComponent(JSON.stringify(data));
             })
             .catch(error => {
                 console.error('Error:', error);
