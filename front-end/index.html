@@ -6,11 +6,25 @@
     <title>Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
+            font-family: serif, "Garamond";
+            margin: 0; /* Remove default margin */
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Align items in a column */
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            background-color: #f8f8f8; /* Optional: background color */
+        }
+        img {
+            width: 170px; /* Set image width */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 5px; /* Space between image and heading */
+        }
+        h1 {
+            margin-bottom: 30px; /* Space between the heading and the button */
         }
         button {
-            padding: 10px 20px;
+            padding: 10px 30px;
             font-size: 18px;
             cursor: pointer;
             background-color: #4CAF50;
@@ -24,22 +38,23 @@
     </style>
 </head>
 <body>
+<img src="../image/webspider.png" alt="Logo"> <!-- Image added here -->
 <h1>ITSY-BITSY SPIDER</h1>
-<p>Click the button below to start crawling the website:</p>
+<p>Alustamiseks vajutage Start nuppu:</p>
 <button id="crawlBtn">Start</button>
 
 <script>
     // JavaScript to handle button click and make a request to crawl.php
     document.getElementById('crawlBtn').addEventListener('click', function() {
-        fetch('../api/crawl.php') // This sends a GET request to crawl.php
-            .then(response => response.json()) // Assuming the response is JSON
+        fetch('../api/crawl.php')
+            .then(response => response.json())
             .then(data => {
                 // Redirect to result page, passing the response as URL parameters
                 window.location.href = 'chart.html?data=' + encodeURIComponent(JSON.stringify(data));
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again.');
+                alert('Andmete analüüsimisel tekkis viga. Palun proovi hiljem uuesti.');
             });
     });
 </script>
