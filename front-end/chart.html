@@ -3,82 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Chart</title>
+    <title>Pie Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<canvas id="barChart" width="400" height="200"></canvas>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="pieChart" width="400" height="400"></canvas>
+
 <script>
-    //parse URL parameters
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        const results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
+    // Retrieve the crawled data from localStorage
+    const data = JSON.parse(localStorage.getItem('crawledData'));
 
-    // Get the 'data' parameter from the URL
-    const data = getUrlParameter('data');
+    if (data && data.categories) {
+        const categories = data.categories;
+        const labels = Object.keys(categories);
+        const values = labels.map(label => categories[label].count);
 
-    if (data) {
-        const parsedData = JSON.parse(data);
-
-        // Extract categories and counts
-        const categories = parsedData.categories;
-        const labels = Object.keys(categories); // Get category names
-        const values = Object.values(categories).map(category => category.count); // Get counts
-
-        // Prepare data for the bar chart
-        const ctx = document.getElementById('barChart').getContext('2d');
-        const myBarChart = new Chart(ctx, {
-            type: 'bar',
+        // Generate Pie Chart
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
             data: {
-                labels: labels, // Use category names as labels
+                labels: labels,
                 datasets: [{
-                    label: 'Kategooriate jaotumine',
-                    data: values, // Use category counts as data
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.7)',
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(75, 192, 192, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
-                        'rgba(255, 159, 64, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    data: values,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#F44336', '#2196F3'],
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#F44336', '#2196F3']
                 }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Osakaal kategooriate järgi'
-                    }
+                title: {
+                    display: true,
+                    text: 'Product Distribution by Category'
                 }
             }
         });
     } else {
-        document.body.innerHTML = '<h2>No data found.</h2>';
+        alert('No data available for chart.');
     }
 </script>
+
 </body>
 </html>
