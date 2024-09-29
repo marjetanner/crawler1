@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="barChart" width="400" height="400"></canvas>
+
+<script>
+    // Retrieve the crawled data from localStorage
+    const data = JSON.parse(localStorage.getItem('crawledData'));
+
+    if (data && data.categories) {
+        const categories = data.categories;
+        let priceRanges = {
+            '0-100': 0,
+            '101-500': 0,
+            '501-1000': 0,
+            '1001-2000': 0,
+            '2001+': 0
+        };
+
+        // Loop through products and group them by price ranges
+        Object.values(categories).forEach(category => {
+            category.products.forEach(product => {
+                const price = parseFloat(product.price);
+                if (!isNaN(price)) {
+                    if (price <= 100) priceRanges['0-100']++;
+                    else if (price <= 500) priceRanges['101-500']++;
+                    else if (price <= 1000) priceRanges['501-1000']++;
+                    else if (price <= 2000) priceRanges['1001-2000']++;
+                    else priceRanges['2001+']++;
+                }
+            });
+        });
+
+        // Generate Bar Chart
+        const ctx = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(priceRanges),
+                datasets: [{
+                    label: 'Number of Products',
+                    data: Object.values(priceRanges),
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Product Count by Price Range'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } else {
+        alert('No data available for chart.');
+    }
+</script>
+
+</body>
+</html>
