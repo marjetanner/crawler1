@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-<img src="../image/webspider.png" alt="Logo"> <!-- Image added here -->
+<img src="../image/webspider.png" alt="Logo"> <!-- Logo-->
 <h1>ITSY-BITSY SPIDER</h1>
 <p>Alustamiseks vajutage Start nuppu:</p>
 <button id="crawlBtn">Start</button>
@@ -72,8 +72,11 @@
                 // Hide loading message
                 document.getElementById('loadingMessage').style.display = 'none';
 
-                // Redirect to result page, passing the response as URL parameters
-                window.location.href = 'chart.html?data=' + encodeURIComponent(JSON.stringify(data));
+                // Save data to localStorage or pass via URL
+                localStorage.setItem('crawledData', JSON.stringify(data)); // Store the data locally
+
+                // Redirect to chart selection page
+                window.location.href = 'results.html'; // Navigate to chart selection page
             })
             .catch(error => {
                 console.error('Error:', error);
