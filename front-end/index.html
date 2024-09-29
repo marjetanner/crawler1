@@ -21,7 +21,12 @@
             margin-bottom: 5px; /* Space between image and heading */
         }
         h1 {
-            margin-bottom: 30px; /* Space between the heading and the button */
+            margin-bottom: 30px;/* Space between the heading and the button */
+            color: darkblue;
+        }
+        p {
+            margin-bottom: 20px;
+            color: cornflowerblue;
         }
         button {
             padding: 10px 30px;
@@ -35,6 +40,13 @@
         button:hover {
             background-color: #45a049;
         }
+        /* Styles for loading message */
+        #loadingMessage {
+            display: none;
+            color: #333;
+            margin-top: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -42,19 +54,35 @@
 <h1>ITSY-BITSY SPIDER</h1>
 <p>Alustamiseks vajutage Start nuppu:</p>
 <button id="crawlBtn">Start</button>
+<p id="loadingMessage">Laadin andmeid, palun oota...</p> <!-- Laadimisteade -->
 
 <script>
-    // JavaScript to handle button click and make a request to crawl.php
     document.getElementById('crawlBtn').addEventListener('click', function() {
+        // Show loading message
+        document.getElementById('loadingMessage').style.display = 'block';
+
+        // Disable the button to prevent multiple clicks
+        var button = document.getElementById('crawlBtn');
+        button.disabled = true;
+        button.style.backgroundColor = '#ccc'; // Optional: Change button style when disabled
+
         fetch('../api/crawl.php')
             .then(response => response.json())
             .then(data => {
+                // Hide loading message
+                document.getElementById('loadingMessage').style.display = 'none';
+
                 // Redirect to result page, passing the response as URL parameters
                 window.location.href = 'chart.html?data=' + encodeURIComponent(JSON.stringify(data));
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Andmete analüüsimisel tekkis viga. Palun proovi hiljem uuesti.');
+
+                // Re-enable the button in case of error
+                button.disabled = false;
+                button.style.backgroundColor = '#4CAF50'; // Restore button style
+                document.getElementById('loadingMessage').style.display = 'none'; // Hide loading message
             });
     });
 </script>
