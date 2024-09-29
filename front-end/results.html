@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Charts Navigation</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh; /* 100% viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Choose a Chart</h1>
+    <button id="pieChartBtn">Show Product Distribution (Pie Chart)</button>
+    <button id="barChartBtn">Show Price Ranges (Bar Chart)</button>
+</div>
+
+<script>
+    document.getElementById('pieChartBtn').onclick = function() {
+        window.location.href = 'chart.html'; // Redirect to pie chart page
+    };
+
+    document.getElementById('barChartBtn').onclick = function() {
+        window.location.href = 'chart2.html'; // Redirect to bar chart page
+    };
+</script>
+
+</body>
+</html>
